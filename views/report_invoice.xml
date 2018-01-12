@@ -24,7 +24,7 @@
 
 
 
-        <div class="page" style="padding-top:140px;">
+        <div class="page" style="padding-top:140px; ">
             <div class="row">
 
                 <div class="col-xs-12">
@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-xs-6">
                         <span t-field="o.partner_id.name"/> 
-                        <span t-if="o.partner_id.companyBrandName"> / <span t-field="o.partner_id.CompanyBrandName"/></span>
+                        <span t-if="o.partner_id.companyBrandName"> / <span t-field="o.partner_id.companyBrandName"/></span>
                     </div>
 
                 </div>
@@ -99,92 +99,39 @@
 
 
 
-            <!-- Is there a discount on at least one line? -->
-            <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
+            <div class="row" style="padding-top:120px; min-height:550px; max-height:550px;" >
+                    <!-- Is there a discount on at least one line? -->
+                    <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
 
-            <table class="table">
-                <thead>
-                    <tr>
-  
-                    </tr>
-                </thead>
-                <tbody class="invoice_tbody">
-                    <tr t-foreach="o.invoice_line_ids" t-as="l">
+                    <table class="table">
+                        <tbody class="invoice_tbody">
+                            <tr t-foreach="o.invoice_line_ids" t-as="l">
 
-                        
-                        <td><span t-field="l.product_id.default_code"/></td>
-                        <td><span t-field="l.product_id.name"/></td>
-                        <td class="text-right">
-                            <span t-field="l.quantity"/>
-                            <span t-field="l.uom_id"  groups="product.group_uom"/>
-                        </td>
-                        <td class="text-right">
-                            <span t-field="l.price_unit"/>
-                        </td>
-                        <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
-                            <span t-field="l.discount"/>
-                        </td>
-                        <td class="text-right">
-                            <span t-field="l.price_subtotal" 
-                                t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="row">
-                <div class="col-xs-4 pull-right">
-                    <table class="table table-condensed">
-                        <tr class="border-black">
-                            <td><strong>Subtotal</strong></td>
-                            <td class="text-right">
-                                <span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                            </td>
-                        </tr>
-                        <t t-foreach="o._get_tax_amount_by_group()" t-as="amount_by_group">
-                            <tr>
-                                <td><span t-esc="amount_by_group[0]"/></td>
+                                
+                                <td><span t-field="l.product_id.default_code"/></td>
+                                <td><span t-field="l.product_id.name"/></td>
                                 <td class="text-right">
-                                    <span t-esc="amount_by_group[1]"/>
-                                </td>
-                            </tr>
-                        </t>
-                        <tr class="border-black">
-                            <td><strong>Total</strong></td>
-                            <td class="text-right">
-                                 <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            
-            <div class="row" t-if="o.tax_line_ids">
-                <div class="col-xs-6">
-                    <table class="table table-condensed">
-                        <thead>
-                            <tr>
-                                <th>Tax</th>
-                                <th class="text-right">Base</th>
-                                <th class="text-right">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr t-foreach="o.tax_line_ids" t-as="t">
-                                <td><span t-field="t.name"/></td>
-                                <td class="text-right">
-                                    <span t-field="t.base"
-                                        t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                    <span t-field="l.quantity"/>
+                                    <span t-field="l.uom_id"  groups="product.group_uom"/>
                                 </td>
                                 <td class="text-right">
-                                    <span t-field="t.amount"
+                                    <span t-field="l.price_unit"/>
+                                </td>
+                                <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
+                                    <span t-field="l.discount"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="l.price_subtotal" 
                                         t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
+
             </div>
+
+            
+
 
             <p t-if="o.comment">
                 <strong>Comment:</strong>
@@ -197,7 +144,43 @@
                 <strong>Fiscal Position Remark:</strong>
                 <span t-field="o.fiscal_position_id.note"/>
             </p>
+
+
+                <div style="padding-top:10px;">
+                    <div class="col-xs-4 pull-right">
+                        <table class="table">
+                            <tr>
+                                <td></td>
+                                <td class="text-right">
+                                    <span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                </td>
+                            </tr>
+                            <t t-foreach="o._get_tax_amount_by_group()" t-as="amount_by_group">
+                                <tr>
+                                    <td><span t-esc="amount_by_group[0]"/></td>
+                                    <td class="text-right">
+                                        <span t-esc="amount_by_group[1]"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td></td>
+                                <td class="text-right">
+                                     <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
         </div>
+
+
+
+
+
+
+
+
  </xpath>
 </template>
 </data>
