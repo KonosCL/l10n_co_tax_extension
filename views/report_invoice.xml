@@ -47,14 +47,11 @@
                     <div class="col-xs-2">
                     </div>
                     <div class="col-xs-4">
-                        
+                        <span t-field="o.date_invoice"/>
                     </div>
                     <div class="col-xs-6">
                         <span t-if="o.partner_id.formatedNit"> NIT: <span t-field="o.partner_id.formatedNit"/></span>
                     </div>
-
-
-                </div>
 
 
                 </div>
@@ -63,7 +60,19 @@
                     <div class="col-xs-2">
                     </div>
                     <div class="col-xs-4">
-                        <span t-field="o.date_invoice"/>
+                        
+                    </div>
+                    <div class="col-xs-6">
+                        <span t-if="o.partner_id.xidentification and not o.partner_id.formatedNit"> NIT: <span t-field="o.partner_id.xidentification"/></span>
+                    </div>
+
+                </div>
+                <div class="col-xs-12">
+
+                    <div class="col-xs-2">
+                    </div>
+                    <div class="col-xs-4">
+                        <span t-field="o.name"/>
                     </div>
                     <div class="col-xs-6">
                         <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/></span>
@@ -76,27 +85,11 @@
                     <div class="col-xs-2">
                     </div>
                     <div class="col-xs-4">
-                        <span t-field="o.name"/>
+                        <span t-field="o.date_due"/>
                     </div>
                     <div class="col-xs-6">
                         <span t-if="o.partner_id.xcity"><span t-field="o.partner_id.xcity"/></span>
                         <span t-if="o.partner_id.state_id">/<span t-field="o.partner_id.state_id"/></span>
-                    </div>
-
-            
-                </div>
-
-
-                <div class="col-xs-12">
-
-
-                    <div class="col-xs-2">
-                    </div>
-                    <div class="col-xs-4">
-                        <span t-field="o.date_due"/>
-                    </div>
-                    <div class="col-xs-6">
-
                     </div>
 
             
