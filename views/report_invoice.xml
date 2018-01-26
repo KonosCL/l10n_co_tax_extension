@@ -18,22 +18,47 @@
                                     <table class="table">
                                         <tr>
                                             <td></td>
+
                                             <td class="text-right">
                                                 <span t-field="o.amount_untaxed" />
                                             </td>
                                         </tr>
+
+<!--
+
                                         <t t-foreach="o._get_tax_amount_by_group()" t-as="amount_by_group">
                                             <tr>
                                                 <td></td>
                                                 <td class="text-right">
                                                     <span t-esc="amount_by_group[1]"/>
                                                 </td>
-                                            </tr>
+                                            </tr> 
                                         </t>
+-->
+
+
+                            <t t-foreach="o.tax_line_ids" t-as="t">                        
+                                <t t-if="('RETEIVA' != t.name) and ('RETEFUENTE' != t.name) "> 
+                                    <tr> 
+                                        <td></td>
+                                        <td class="text-right">
+                                            <span t-esc="t.amount"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+
+
+
+
+
+
+
+                                        
                                         <tr>
                                             <td></td>
                                             <td class="text-right">
-                                                 <span t-field="o.amount_total" />
+                                                 <span t-field="o.amount_without_wh_tax" />
                                             </td>
                                         </tr>
                                     </table>
@@ -154,7 +179,7 @@
 
 
 
-            <div class="row" style="padding-top:90px; min-height:550px; max-height:550px; font-size:13px;">
+            <div class="row" style="padding-top:90px; min-height:500px; max-height:500px; font-size:13px;">
                     <!-- Is there a discount on at least one line? -->
                     <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
 
@@ -185,6 +210,36 @@
                     </table>
 
             </div>
+
+          
+
+            <div class="row" t-if="o.tax_line_ids">
+                 <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+
+                        <tbody>
+
+                          <t t-foreach="o.tax_line_ids" t-as="t">                        
+                                <t t-if="('RETEIVA' == t.name) or ('RETEFUENTE' == t.name) "> 
+                                    <tr> 
+                                        <td><span t-field="t.name"/></td>
+
+                                        <td class="text-right">
+                                            <span t-field="t.amount"
+                                                t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+
+                            </t>                               
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+
 
             
 <!-- 

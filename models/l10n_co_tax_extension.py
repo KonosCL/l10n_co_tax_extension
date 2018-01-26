@@ -179,6 +179,15 @@ class AccountInvoice(models.Model):
         return res
 
 
+
+
+
+
+
+
+
+
+
     @api.multi
     def get_taxes_values(self):
         tax_grouped = super(AccountInvoice, self).get_taxes_values()
@@ -186,10 +195,10 @@ class AccountInvoice(models.Model):
             tipo_factura = 'sale'
             if order.type in ('in_invoice', 'in_refund'):
                 tipo_factura = 'purchase'
-            if order.company_id.partner_id.property_account_position_id:
+            if self.fiscal_position_id.id:
                 
                 fp = self.env['account.fiscal.position'].search(
-                    [('id', '=', self.env.user.company_id.partner_id.property_account_position_id.id)])
+                    [('id', '=', self.fiscal_position_id.id)])
                 fp.ensure_one()
                 
                 for taxs in fp.tax_ids_invoice:
@@ -309,8 +318,7 @@ class AccountInvoice(models.Model):
                                                 tax_grouped[key] = val
                                             else:
                                                 tax_grouped[key]['amount'] += val['amount']
-            else:
-                raise UserError(_('Debe definir una posicion fiscal para el partner asociado a la compañía actual'))
+
             
             if self.fiscal_position_id:
                 fp = self.env['account.fiscal.position'].search([('id','=',self.fiscal_position_id.id)])
