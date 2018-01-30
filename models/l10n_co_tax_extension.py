@@ -78,6 +78,7 @@ class AccountInvoice(models.Model):
     resolution_date_to = fields.Date()
     resolution_number_from = fields.Integer("")
     resolution_number_to = fields.Integer("")
+    remision_number = fields.Char('Remision de Entrega')
 
     # Calculate withholding tax and (new) total amount 
 
