@@ -64,7 +64,7 @@
 
  <template id="report_invoice_document_roblan_colombia" inherit_id="account.report_invoice_document">
         <xpath expr="//div['page']" position="replace">
-        <div class="page" style="padding-top:39px; ">
+        <div class="page" style="padding-top:79px; ">
             <div class="row">
 
                 <div class="col-xs-12" style="border: 4px;">
@@ -166,7 +166,7 @@
 
 
 
-            <div class="row" style="padding-top:90px; min-height:570px; max-height:570px; font-size:13px;">
+            <div class="row" style="padding-top:90px; min-height:510px; max-height:510px; font-size:13px;">
                     <!-- Is there a discount on at least one line? -->
                     <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
 
@@ -176,7 +176,7 @@
 
                                 
                                 <td><span t-field="l.product_id.default_code"/></td>
-                                <td><span t-esc="l.product_id.name[:70]"/></td>
+                                <td><span t-esc="l.product_id.name[:50].upper()"/></td>
                                 
                                 <td class="text-left">
                                     <span t-field="l.quantity"/>
@@ -272,7 +272,7 @@
             <field name="margin_top">40</field>
             <field name="margin_bottom">38</field>
             <field name="margin_left">7</field>
-            <field name="margin_right">3</field>
+            <field name="margin_right">7</field>
             <field name="header_line" eval="False" />
             <field name="header_spacing">35</field>
             <field name="dpi">90</field>
